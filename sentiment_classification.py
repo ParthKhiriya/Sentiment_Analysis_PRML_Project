@@ -39,5 +39,5 @@ df = df.drop(labels=0)
 df.columns = ["polarity","id","date","query","user","text"]
 
 # This gives the information about our data,  like what are the datatypes of content present in all the columns and also the null count
-df
+print(df)
 # Our data has no null values and no duplicates
