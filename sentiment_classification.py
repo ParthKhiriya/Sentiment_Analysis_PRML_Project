@@ -41,3 +41,61 @@ df.columns = ["polarity","id","date","query","user","text"]
 # This gives the information about our data,  like what are the datatypes of content present in all the columns and also the null count
 print(df)
 # Our data has no null values and no duplicates
+
+"""# **Step 2 : Data Preprocessing**"""
+
+df['polarity'].value_counts()
+
+# Since value_counts() is showing two different types of 0s so we have to check what is the problem
+print(df['polarity'].unique())
+
+# As the output of unique() function shows that the polarity columns contains two types of 0, integer and string respectively
+# Now we have to convert the string zero to integer zero, so we will use to_numeric function
+df['polarity'] = pd.to_numeric(df['polarity'], errors='coerce').fillna(0).astype(int)
+
+df['polarity'] = df['polarity'].astype(str).str.strip().astype(int)
+
+# Now let us again check if our data has two types of zeroes or not
+print(df['polarity'].unique())
+
+# Again checking for the number of positive and negative tweets, this time we get the actual value
+df['polarity'].value_counts()
+df['polarity'] = df['polarity'].map({4:1,0:0})
+df['polarity'].value_counts()
+
+# Now importing some more required dependencies
+# The re library is for handling regular expressions, like handling links, URLs etc
+import re
+import string
+# The nltk library is for handling the natural language processing tasks such as tokenisation, stemming, removing stopwords etc.
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+import nltk
+
+nltk.download('stopwords')
+
+# This function performs basic tasks for cleaning the data such as lowercasing, URL handling etc.
+def clean_text(text):
+
+    text = text.lower()  # Lowercasing
+    text = re.sub(r'http\S+|www.\S+', '', text)  # Remove URLs
+    text = re.sub(r'@\w+|#\w+', '', text)  # Remove mentions and hashtags
+    text = text.translate(str.maketrans('', '', string.punctuation))  # Remove punctuation
+    text = re.sub(r'\d+', '', text)  # Remove numbers
+    return text.strip()
+
+# Save the cleaned text in our dataframe
+df['cleaned_text'] = df['text'].apply(clean_text)
+
+# Tokenisation - splits the dataset into an array of words(nltk generally performs word tokenisation i.e. seperating words) for better handling of punctuations
+df['tokens'] = df['cleaned_text'].apply(lambda x: x.split())
+
+# Removing all the stopwords because it will not impact the sentiment of the tweet
+stop_words = set(stopwords.words('english'))
+df['tokens'] = df['tokens'].apply(lambda tokens: [word for word in tokens if word not in stop_words])
+
+# Then stemming(converting a word into its root word e.g. acting, actor to act)
+stemmer = PorterStemmer()
+df['stemmed_text'] = df['tokens'].apply(lambda tokens: ' '.join([stemmer.stem(word) for word in tokens]))
+
+print(df)
