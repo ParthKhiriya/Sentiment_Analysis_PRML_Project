@@ -99,3 +99,167 @@ stemmer = PorterStemmer()
 df['stemmed_text'] = df['tokens'].apply(lambda tokens: ' '.join([stemmer.stem(word) for word in tokens]))
 
 print(df)
+
+"""# **Step 3 : Exploratory Data Analysis**"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from wordcloud import WordCloud
+from collections import Counter
+import nltk
+from nltk.corpus import stopwords
+from nltk.util import ngrams
+from itertools import chain
+from builtins import zip
+
+# Create a copy of the existing dataframe for EDA to avoid modifying df
+df_eda = df.copy()
+
+# **1. Class Distribution Visualization**
+plt.figure(figsize=(10, 6))
+sns.countplot(x=df_eda['polarity'], palette="viridis")
+plt.title("Class Distribution (0 = Negative, 1 = Positive)")
+plt.xlabel("Sentiment")
+plt.ylabel("Count")
+plt.xticks(ticks=[0, 1], labels=["Negative", "Positive"])
+plt.show()
+
+# **2. Text Length Distribution**
+df_eda["text_length"] = df_eda["text"].apply(lambda x: len(x.split()))
+plt.figure(figsize=(10, 6))
+sns.histplot(df_eda["text_length"], bins=50, kde=True)
+plt.title("Distribution of Tweet Lengths")
+plt.xlabel("Number of Words")
+plt.ylabel("Frequency")
+plt.show()
+
+# **3. Word Cloud for Positive & Negative Tweets**
+stop_words = set(stopwords.words('english'))
+
+# Function to generate word cloud
+def generate_wordcloud(text, title):
+    plt.figure(figsize=(10, 6))
+    wordcloud = WordCloud(stopwords=stop_words, background_color='white', width=800, height=400).generate(' '.join(text))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.title(title, fontsize=14)
+    plt.axis("off")
+    plt.show()
+
+# Generate word clouds
+generate_wordcloud(df_eda[df_eda['polarity'] == 1]['text'], "Most Common Words in Positive Tweets")
+generate_wordcloud(df_eda[df_eda['polarity'] == 0]['text'], "Most Common Words in Negative Tweets")
+
+# **4. Most Frequent Words**
+def get_top_n_words(text, n=20):
+    words = list(chain(*text.str.split()))
+    words = [word.lower() for word in words if word.isalpha() and word not in stop_words]
+    return Counter(words).most_common(n)
+
+# Plot top words for both classes
+top_words_positive = get_top_n_words(df_eda[df_eda['polarity'] == 1]['text'])
+top_words_negative = get_top_n_words(df_eda[df_eda['polarity'] == 0]['text'])
+
+def plot_top_words(word_freq, title):
+    words, counts = list(zip(*word_freq))
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=list(counts), y=list(words), palette="magma")
+    plt.title(title)
+    plt.xlabel("Frequency")
+    plt.ylabel("Words")
+    plt.show()
+
+plot_top_words(top_words_positive, "Top 20 Words in Positive Tweets")
+plot_top_words(top_words_negative, "Top 20 Words in Negative Tweets")
+
+# **5. Bi-gram & Tri-gram Analysis**
+def get_top_ngrams(text, n=2, top_n=20):
+    ngram_list = list(chain(*[list(ngrams(tweet.split(), n)) for tweet in text]))
+    ngram_counts = Counter(ngram_list).most_common(top_n)
+    return [(" ".join(ngram), count) for ngram, count in ngram_counts]
+
+# Get top n-grams
+top_bigrams = get_top_ngrams(df_eda['text'], n=2)
+top_trigrams = get_top_ngrams(df_eda['text'], n=3)
+
+# Plot top bi-grams and tri-grams
+plot_top_words(top_bigrams, "Top 20 Bi-grams in Tweets")
+plot_top_words(top_trigrams, "Top 20 Tri-grams in Tweets")
+
+"""# **Step 4 : Vectorization**"""
+
+from sklearn.model_selection import train_test_split
+
+X = df['stemmed_text']
+y = df['polarity']
+
+X_train_text, X_test_text, y_train, y_test = train_test_split(X, y, test_size=0.2,stratify= y, random_state=42)
+
+print(X.shape, X_train_text.shape, X_test_text.shape)
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=5000, stop_words='english')
+X_train = vectorizer.fit_transform(X_train_text)
+X_test = vectorizer.transform(X_test_text)
+
+print(f"Training Data:\n {X_train}")
+print(f"Testing Data:\n {X_test}")
+
+"""# **Step 5 : Applying Models**
+
+**1. Logistic Regression**
+"""
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+log_reg = LogisticRegression(max_iter=1000)
+log_reg.fit(X_train, y_train)
+
+y_pred_train_logistic = log_reg.predict(X_train)
+accuracy_train_logistic = accuracy_score(y_train, y_pred_train_logistic)
+print(f"Logistic Regression Training accuracy : {accuracy_train_logistic}")
+
+y_pred_test_logistic = log_reg.predict(X_test)
+accuracy_test_logistic = accuracy_score(y_test, y_pred_test_logistic)
+print(f"Logistic Regression Testing accuracy : {accuracy_test_logistic}")
+
+"""**2. Linear Regression**"""
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+lin_reg = LinearRegression()
+lin_reg.fit(X_train, y_train)
+
+y_pred_train_linear = lin_reg.predict(X_train)
+r2_train_linear = r2_score(y_train, y_pred_train_linear)
+print(f"\n Linear Regression Training accuracy : {r2_train_linear}")
+
+y_pred_test_linear = lin_reg.predict(X_test)
+r2_test_linear = r2_score(y_test, y_pred_test_linear)
+print(f"linear Regression Testing accuracy : {r2_test_linear}")
+
+"""**3. Naive Bayes**"""
+
+from sklearn.naive_bayes import MultinomialNB
+
+nb_model = MultinomialNB()
+nb_model.fit(X_train, y_train)
+
+y_pred_nb = nb_model.predict(X_test)
+print("Naïve Bayes Accuracy:", accuracy_score(y_test, y_pred_nb))
+
+"""**4. XG Boost**"""
+
+from xgboost import XGBClassifier
+
+print("Training XGBoost...")
+xgb_model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', verbosity=1)
+xgb_model.fit(X_train, y_train)
+
+y_pred_xgb = xgb_model.predict(X_test)
+print("XGBoost Accuracy:", accuracy_score(y_test, y_pred_xgb))
