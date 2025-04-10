@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Useful Links</title>
+  <title>Project Overview</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -12,21 +12,135 @@
       <div class="navbar-nav">
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/compare">Compare Models</a>
-        <a class="nav-link active" href="/links">Links</a>
+        <a class="nav-link active" href="/links">Project Page</a>
       </div>
     </div>
   </nav>
 
   <div class="container mt-5">
     <div class="card shadow p-4">
-      <h2 class="text-center mb-4">Useful Resources</h2>
-      <ul class="list-group">
-        {% for link in links %}
-          <li class="list-group-item">
-            <a href="{{ link }}" target="_blank">{{ link }}</a>
-          </li>
-        {% endfor %}
+      <h2 class="text-center mb-4">Sentiment Analysis Project Overview</h2>
+      
+      <p>This project analyzes the sentiment of textual data using multiple machine learning models. The main goal is to classify input text as having <strong>positive</strong> or <strong>negative</strong> sentiment using a trained classifier.</p>
+
+      <h4>📘 Theory</h4>
+      <p><strong>How It Works:</strong> Sentiment Analysis is a branch of Natural Language Processing (NLP) that deals with identifying and categorizing emotions in text. The process begins with preprocessing—removing stopwords, punctuation, and irrelevant characters—followed by tokenization and feature extraction using techniques like TF-IDF (Term Frequency-Inverse Document Frequency). These extracted features are used to train supervised learning models that can identify sentiment patterns from the data.</p>
+
+      <p>In our project, we use TF-IDF to transform tweets into numerical vectors and apply multiple classifiers to predict whether a selected portion of a tweet conveys a positive or negative sentiment. The project demonstrates the complete pipeline from raw data to prediction and visualization.</p>
+
+      <p><strong>Applications:</strong> Sentiment analysis is used extensively across industries. Social media platforms monitor public opinion trends, businesses analyze customer feedback, and financial firms assess market sentiment. It is also employed in areas like brand monitoring and mental health analysis. Our project emulates these real-world applications using a diverse tweet-based dataset enhanced with demographic and geographic metadata.</p>
+
+      <p><strong>Project Functionality:</strong> The web application lets users input text and view sentiment predictions from four different machine learning models. It also visualizes model accuracies and links to a Jupyter notebook that contains detailed theoretical background, code, and evaluation. The backend is developed using Flask, and the frontend uses Bootstrap for a responsive and intuitive UI.</p>
+
+      <h4>🔍 Model Implementation & Insights</h4>
+
+<p>In our project, each machine learning model was implemented using <strong>scikit-learn</strong> or <strong>XGBoost</strong>, with TF-IDF-transformed features serving as input. Here's how each model was integrated into the pipeline and how it performed based on our dataset:</p>
+
+<h5>1. 📈 Logistic Regression</h5>
+<p>Logistic Regression is a linear model that works well for binary classification tasks. We trained this model using the sentiment-labeled tweets, where the TF-IDF vectors represented the features and the sentiment labels served as the target. This model achieved the <strong>highest accuracy of 83.5%</strong>, making it the most reliable among the models used. Its simplicity, interpretability, and generalization ability made it ideal for this task.</p>
+
+<p><strong>Why it worked:</strong> Sentiment classification often follows linear boundaries in the TF-IDF feature space, and Logistic Regression is well-suited for this. It handled class imbalance and high-dimensional sparse features effectively.</p>
+
+<h5>2. 📉 Linear Regression</h5>
+<p>Linear Regression is typically used for predicting continuous values, but we experimented with it to observe how a regression model would behave when forced to make a classification decision (by applying a threshold). However, this model yielded a very poor accuracy of <strong>19.65%</strong>. It was clearly unsuitable for a classification task due to its inability to distinguish class boundaries effectively.</p>
+
+<p><strong>Why it failed:</strong> Since Linear Regression minimizes squared error and is not optimized for classification, it produced continuous values that didn’t map well to categorical sentiment labels. This was a benchmark case to demonstrate model selection importance.</p>
+
+<h5>3. 🧮 Multinomial Naive Bayes</h5>
+<p>Multinomial Naive Bayes is a probabilistic model that assumes feature independence and works well with word frequency data. It achieved an accuracy of <strong>78.4%</strong>. Although slightly less accurate than Logistic Regression, it still performed quite well given its simplicity and speed.</p>
+
+<p><strong>Why it worked:</strong> The TF-IDF features, although not pure counts, worked decently with the Naive Bayes assumption. Its performance is strong in text classification tasks due to the model’s strength in handling high-dimensional and sparse data.</p>
+
+<h5>4. 🚀 XGBoost Classifier</h5>
+<p>XGBoost is a powerful ensemble method based on gradient boosting. It learns complex non-linear patterns and handles overfitting using regularization. It achieved an accuracy of <strong>80.69%</strong>, making it the second-best performing model in our project.</p>
+
+<p><strong>Why it worked:</strong> XGBoost excels at handling tabular data with mixed types and can capture intricate relationships in data. With proper parameter tuning and early stopping, it provided high predictive power without significant overfitting.</p>
+
+<h5>✅ Summary of Usefulness:</h5>
+<ul>
+  <li><strong>✔ Logistic Regression:</strong> Best performing and most balanced — used as a benchmark.</li>
+  <li><strong>✖ Linear Regression:</strong> Poor choice for classification — included for contrast and academic interest.</li>
+  <li><strong>✔ Naive Bayes:</strong> Simple, fast, and effective — good for baseline or quick inference.</li>
+  <li><strong>✔ XGBoost:</strong> Powerful and accurate — slightly more complex but robust.</li>
+</ul>
+
+<p>Each model was saved using <code>joblib</code> and loaded in <code>app.py</code> to make real-time predictions through the web interface. Users can view model-wise predictions and compare their results via the 'Compare Models' tab.</p>
+
+
+      <h4>📊 Model Accuracy</h4>
+      <ul>
+        <li><strong>Logistic Regression:</strong> 83.5%</li>
+        <li><strong>Linear Regression:</strong> 19.65%</li>
+        <li><strong>Naive Bayes:</strong> 78.4%</li>
+        <li><strong>XGBoost:</strong> 80.69%</li>
       </ul>
+
+      <h4>📁 Dataset Details</h4>
+      <p><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset" target="_blank">Kaggle - Sentiment Analysis Dataset</a></p>
+
+      <p><strong>Description:</strong> The dataset consists of tweets annotated with sentiment labels and supplemented with demographic and geographic information. Each entry includes:</p>
+      <ul>
+        <li><strong>textID:</strong> Unique identifier for each tweet</li>
+        <li><strong>Text:</strong> Full tweet content</li>
+        <li><strong>selected_Text:</strong> Highlighted portion of the tweet expressing sentiment</li>
+        <li><strong>sentiment:</strong> Sentiment label (neutral, positive, negative)</li>
+        <li><strong>Time of Tweet:</strong> Categorized as morning, noon, or evening/night</li>
+        <li><strong>Age of User:</strong> 0-20, 21-30, or others</li>
+        <li><strong>Country:</strong> User's country of origin</li>
+        <li><strong>Population:</strong> Population of the user's country</li>
+        <li><strong>Land Area:</strong> Land area of the country</li>
+        <li><strong>Density:</strong> Population density</li>
+      </ul>
+
+      <p><strong>Training Columns:</strong> Polarity, Tweet ID, Date, Query, User, Text</p>
+      <p><strong>Dataset Size:</strong> 838,857 training tweets and 209,715 test tweets</p>
+
+      <h4>📂 Project Structure</h4>
+      <pre>
+Sentiment_Analysis_PRML_Project/
+│
+├── app.py                      # Main Flask application
+├── model/                      # Folder containing saved models and vectorizer
+│   ├── log_reg.pkl
+│   ├── lin_reg.pkl
+│   ├── nb_model.pkl
+│   ├── xgb_model.pkl
+│   └── vectorizer.pkl
+│
+├── templates/                  # HTML templates
+│   ├── index.html
+│   ├── result.html
+│   ├── compare.html
+│   └── links.html
+│
+├── static/                     # CSS, images, if any
+├── Copy_of_Project.ipynb       # Notebook with full code and EDA
+└── README.md                   # Project summary
+      </pre>
+
+      <h4>📚 Materials and Libraries Used</h4>
+      <ul>
+        <li>TF-IDF Vectorizer</li>
+        <li>scikit-learn</li>
+        <li>XGBoost</li>
+        <li>Flask</li>
+        <li>Jupyter Notebook</li>
+      </ul>
+
+      <h4>🔗 Useful Links</h4>
+      <ul>
+        <li><a href="https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project" target="_blank">GitHub Repository</a></li>
+        <li><a href="https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset" target="_blank">Kaggle Dataset</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction" target="_blank">TF-IDF Vectorizer (scikit-learn)</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression" target="_blank">Logistic Regression - scikit-learn Docs</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/linear_model.html#ordinary-least-squares" target="_blank">Linear Regression - scikit-learn Docs</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/naive_bayes.html" target="_blank">Naive Bayes - scikit-learn Docs</a></li>
+        <li><a href="https://xgboost.readthedocs.io/en/stable/" target="_blank">XGBoost Documentation</a></li>
+        <li><a href="https://flask.palletsprojects.com/en/2.3.x/" target="_blank">Flask Documentation</a></li>
+        <li><a href="https://realpython.com/nltk-nlp-python/" target="_blank">NLP with Python (Real Python Guide)</a></li>
+        <li><a href="https://www.analyticsvidhya.com/blog/2021/06/sentiment-analysis-using-python/" target="_blank">Sentiment Analysis Tutorial (Analytics Vidhya)</a></li>
+      </ul>
+
     </div>
   </div>
 </body>

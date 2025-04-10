@@ -13,9 +13,8 @@ models = {
 }
 vectorizer = joblib.load('model/vectorizer.pkl')
 
-# Load accuracies
+# Load accuracies and convert to percentage
 accuracies = joblib.load('model/accuracies.pkl')
-# Convert to percentage
 accuracies = {k: round(v * 100, 2) for k, v in accuracies.items()}
 
 @app.route('/')
