@@ -40,7 +40,8 @@ def compare():
 
 @app.route('/links')
 def links():
-    return render_template('links.html')
+    useful_links = ["https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project"]
+    return render_template('links.html', links=useful_links)
 
 if __name__ == '__main__':
     app.run(debug=True)
