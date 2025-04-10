@@ -76,10 +76,10 @@ Dataset: [https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-datas
 
 ## 🧑‍💻 Team
 
-Parth Khiriya (B23EE1051)
-Devesh Labana (B23CS1015)
-Vishrut Aditya Ratnoo (B23EE1102)
-Shlok Agrawal (B23EE1096)
-Nitish Gupta (B23CS1046)
-Divya Kumar (B23EE1019)
+- Parth Khiriya (B23EE1051)
+- Devesh Labana (B23CS1015)
+- Vishrut Aditya Ratnoo (B23EE1102)
+- Shlok Agrawal (B23EE1096)
+- Nitish Gupta (B23CS1046)
+- Divya Kumar (B23EE1019)
 
