@@ -10,7 +10,6 @@ models = {
     'Linear Regression': joblib.load('model/lin_reg.pkl'),
     'Naive Bayes': joblib.load('model/nb_model.pkl'),
     'XGBoost': joblib.load('model/xgb_model.pkl'),
-    'Random Forest': joblib.load('model/rf_model.pkl'),
     'SVM': joblib.load('model/svm_model.pkl'),
     'Decision Tree': joblib.load('model/dt_model.pkl')
 }
