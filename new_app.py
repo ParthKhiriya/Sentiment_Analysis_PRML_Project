@@ -18,7 +18,7 @@ vectorizer = joblib.load('model/vectorizer.pkl')
 
 # Load and format accuracies
 accuracies = joblib.load('model/accuracies.pkl')
-accuracies = {k: round(v * 100, 2) for k, v in accuracies.items()}
+accuracies = {k: round(v, 2) for k, v in accuracies.items()}
 
 # Mapping prediction outputs to labels
 sentiment_labels = {
