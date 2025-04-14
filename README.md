@@ -35,6 +35,28 @@ Sentiment_Analysis_PRML_Project/
 ├── Copy_of_Project.ipynb  → Jupyter notebook with full EDA, training, and results
 └── README.md              → Project overview and documentation
 
+## 🔑 Kaggle API Setup for Google Colab
+
+Since the dataset was downloaded from Kaggle and used in the notebook, to run this project on **Google Colab**, every team member needed to configure access to Kaggle’s API. Here's how to set it up:
+
+### 🔧 Steps:
+1. **Login to your Kaggle account**  
+   Go to: https://www.kaggle.com/account  
+
+2. **Scroll down to 'API' section**  
+   Click on **"Create New API Token"**
+
+3. **A file named `kaggle.json` will be downloaded**  
+   It contains your username and Kaggle API key.
+
+4. **Upload the file to Colab**  
+   Use the following code in the first cell of the notebook:
+
+   ```python
+   from google.colab import files
+   files.upload()  # Upload kaggle.json
+
+   
 ## 📊 Models Used
 
 - **Logistic Regression**  
