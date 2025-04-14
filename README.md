@@ -18,8 +18,10 @@ Sentiment_Analysis_PRML_Project/
 │   ├── lin_reg.pkl
 │   ├── nb_model.pkl
 │   ├── xgb_model.pkl
+|   ├── svm_model.pkl
+|   ├── dt_model.pkl
 │   └── vectorizer.pkl
-|   ├──  accuracies.pkl         → Pickled dictionary storing accuracy of all 
+│   ├── accuracies.pkl     → Pickled dictionary storing accuracy of all 
 │
 ├── templates/             → HTML templates used by Flask for rendering pages
 │   ├── index.html
@@ -33,13 +35,15 @@ Sentiment_Analysis_PRML_Project/
 ├── Copy_of_Project.ipynb  → Jupyter notebook with full EDA, training, and results
 └── README.md              → Project overview and documentation
 
-
 ## 📊 Models Used
 
-- **Logistic Regression**
-- **Linear Regression**
-- **Multinomial Naive Bayes**
-- **XGBoost Classifier**
+- **Logistic Regression**  
+- **Linear Regression**  
+- **Multinomial Naive Bayes**  
+- **XGBoost Classifier**  
+- **Support Vector Machine (SVM)**  
+- **Random Forest Classifier**  
+- **K-Nearest Neighbors (KNN)**
 
 ## 🧠 Theory
 
@@ -53,33 +57,35 @@ We used:
 
 Each model's accuracy (in %), computed on the test dataset:
 
-| Model              | Accuracy (%)  |
-|--------------------|---------------|
-| Logistic Regression| 83.5          |
-| Linear Regression  | 19.65         |
-| Naive Bayes        | 78.4          |
-| XGBoost            | 80.69         |
+| Model                  | Accuracy (%)  |
+|------------------------|---------------|
+| Logistic Regression    | 83.5          |
+| Linear Regression      | 19.65         |
+| Naive Bayes            | 78.4          |
+| XGBoost                | 80.69         |
+| SVM                    | 84.05         |
+| Random Forest          | 80.32         |
+| K-Nearest Neighbors    | 69.41         |
 
 ## 🌐 Live Project Page
 
 Check out the web interface: [Project Website](http://127.0.0.1:5000)  
-GitHub Repo: [https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project](https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project)
-Dataset: [https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset]
+GitHub Repo: [https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project](https://github.com/ParthKhiriya/Sentiment_Analysis_PRML_Project)  
+Dataset: [https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset](https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset)
 
 ## 📚 Resources
 
-- Scikit-learn
-- XGBoost
-- Flask
-- Pandas, NumPy
+- Scikit-learn  
+- XGBoost  
+- Flask  
+- Pandas, NumPy  
 - NLTK for preprocessing
 
 ## 🧑‍💻 Team
 
-- Parth Khiriya (B23EE1051)
-- Devesh Labana (B23CS1015)
-- Vishrut Aditya Ratnoo (B23EE1102)
-- Shlok Agrawal (B23EE1096)
-- Nitish Gupta (B23CS1046)
-- Divya Kumar (B23EE1019)
-
+- Parth Khiriya (B23EE1051)  
+- Devesh Labana (B23CS1015)  
+- Vishrut Aditya Ratnoo (B23EE1102)  
+- Shlok Agrawal (B23EE1096)  
+- Nitish Gupta (B23CS1046)  
+- Divya Kumar (B23EE1019)  
