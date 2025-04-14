@@ -56,12 +56,30 @@
 
 <p><strong>Why it worked:</strong> XGBoost excels at handling tabular data with mixed types and can capture intricate relationships in data. With proper parameter tuning and early stopping, it provided high predictive power without significant overfitting.</p>
 
+<h5>5. 🧠 Support Vector Machine (SVM)</h5>
+<p>SVM is a powerful classification algorithm that works by finding the optimal hyperplane that separates classes in high-dimensional space. We used an SVM with a linear kernel for our dataset. It achieved the <strong>highest accuracy of 84.05%</strong>, making it the top performer in our sentiment classification task.</p>
+
+<p><strong>Why it worked:</strong> SVM is particularly effective for high-dimensional text data. Its ability to handle sparse TF-IDF vectors and find a decision boundary with maximum margin helped improve classification robustness.</p>
+
+<h5>6. 🌲 Random Forest Classifier</h5>
+<p>Random Forest is an ensemble of decision trees that improves accuracy by reducing overfitting. It achieved an accuracy of <strong>80.32%</strong>, placing it in the upper tier of our tested models.</p>
+
+<p><strong>Why it worked:</strong> By averaging predictions across multiple trees trained on different data subsets and features, Random Forest reduced variance and maintained strong performance across a diverse dataset.</p>
+
+<h5>7. 🧭 K-Nearest Neighbors (KNN)</h5>
+<p>KNN is a simple instance-based learning algorithm that classifies a sample based on the majority sentiment of its nearest neighbors. While straightforward, it achieved an accuracy of <strong>69.41%</strong>, making it the least accurate of the viable models used (excluding Linear Regression).</p>
+
+<p><strong>Why it worked (to an extent):</strong> KNN works better with fewer, more distinguishable features. The high-dimensional nature of TF-IDF vectors made distance calculations less effective, but it still offered a reasonable baseline performance.</p>
+
 <h5>✅ Summary of Usefulness:</h5>
 <ul>
   <li><strong>✔ Logistic Regression:</strong> Best performing and most balanced — used as a benchmark.</li>
   <li><strong>✖ Linear Regression:</strong> Poor choice for classification — included for contrast and academic interest.</li>
   <li><strong>✔ Naive Bayes:</strong> Simple, fast, and effective — good for baseline or quick inference.</li>
   <li><strong>✔ XGBoost:</strong> Powerful and accurate — slightly more complex but robust.</li>
+  <li><strong>✔ SVM:</strong> Most accurate and robust — excellent choice for high-dimensional text data.</li>
+  <li><strong>✔ Random Forest:</strong> Strong performance — good balance between complexity and generalization.</li>
+  <li><strong>➖ KNN:</strong> Decent accuracy but less suitable for high-dimensional data — useful for academic purposes or small-scale tasks.</li>
 </ul>
 
 <p>Each model was saved using <code>joblib</code> and loaded in <code>app.py</code> to make real-time predictions through the web interface. Users can view model-wise predictions and compare their results via the 'Compare Models' tab.</p>
@@ -73,6 +91,9 @@
         <li><strong>Linear Regression:</strong> 19.65%</li>
         <li><strong>Naive Bayes:</strong> 78.4%</li>
         <li><strong>XGBoost:</strong> 80.69%</li>
+        <li><strong>SVM:</strong> 84.05%</li>
+        <li><strong>Random Forest:</strong> 80.32%</li>
+        <li><strong>KNN:</strong> 69.41%</li>
       </ul>
 
       <h4>📁 Dataset Details</h4>
